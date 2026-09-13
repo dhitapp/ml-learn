@@ -1,0 +1,1 @@
+from src.modules.clip.image_base.base import ImageEncoder

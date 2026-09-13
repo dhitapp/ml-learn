@@ -1,0 +1,1 @@
+from src.modules.clip.text_base.base import TextEncoder
