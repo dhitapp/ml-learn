@@ -8,6 +8,7 @@ Repositories of things I tried to explore, learn, relearn, instead of just takin
 - 07/09/2026 - FlashAttentionv1
 - 07/09/2026 - MultiQuery Attention
 - 12/09/2026 - K/V Cache, Grouped Query Attention, Rotational Position Embedding (RoPE)
+- 13/09/2026 - Contrastive Learning Image Pre-training (CLIP)
 
 ## TBD
 - FlashAttention and their variants
