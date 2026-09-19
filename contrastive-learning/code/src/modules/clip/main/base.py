@@ -18,6 +18,9 @@ class CLIP(nn.Module):
         super().__init__()
         self.image_embed_layer = ImageEncoder(image_model_name, proj_size=output_size, device=device)
         self.txt_embed_layer = TextEncoder(text_model_name, proj_size=output_size, device=device)
+
+        # If we use np.log(...), it returns a numpy float64
+        # If we use math.log(...), it returns a plain Python float, and PyTorch turns Python floats into its default dtype, float32.
         self.logit_scale = nn.Parameter(torch.tensor(math.log(1/temperature)))
 
     def forward(self, img, text):
