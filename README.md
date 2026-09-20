@@ -8,7 +8,7 @@ Small implementations and experiments for learning (and re-learning) machine lea
 | --- | --- | --- |
 | [NanoGPT](nanogpt/) | A character-level language model with implemented causal, multi-head, multi-query, grouped-query, and FlashAttention v1 modules, plus positional embeddings and KV caching. | Implemented modules · [attention notes](nanogpt/code/src/modules/attention/README.md) |
 | [Contrastive learning](contrastive-learning/) | A CLIP-style image–text model with pretrained encoders and trainable projection layers. | Experiment · [training notebook](contrastive-learning/code/src/train.ipynb) |
-| [Low-rank adaptation](low-adaptive-rank/) | LoRA and a custom QLoRA experiment with Qwen3.5-4B. | In progress · [README](low-adaptive-rank/README.md) |
+| [Low-rank adaptation](low-adaptive-rank/) | LoRA and a custom QLoRA experiment with Qwen3.5-4B. | Implemented modules · [README](low-adaptive-rank/README.md) |
 
 ## How this repository is organized
 
@@ -23,6 +23,7 @@ Each project is a separate learning experiment. Code, notebooks, and any project
 | 12/09/2026 | KV caching, grouped-query attention, and rotary position embeddings (RoPE) |
 | 13/09/2026 | Contrastive language–image pretraining (CLIP) |
 | 19/09/2026 | LoRA adapters, 4-bit QLoRA, and an initial Qwen3.5-2B tool-use fine-tuning experiment |
+| 20/09/2026 | vLLM serve and Agent benchmark with BFCLv4 |
 
 ## Topics to explore
 
