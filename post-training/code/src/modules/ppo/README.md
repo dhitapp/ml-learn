@@ -38,13 +38,13 @@ $$
 R(x,y)=r_\theta(x,y)-\beta\log\frac{\pi_\phi^{\mathrm{RL}}(y\mid x)}{\pi^{\mathrm{SFT}}(y\mid x)}.
 $$
 
-The second term penalizes movement away from the fixed SFT reference. An LLM's log probability of a summary is a sum of token log probabilities, so:
+The second term penalizes movement away from the fixed SFT reference. Let the generated tokens be $y_0,\ldots,y_{T-1}$, with terminal state $T$. Write $h_t=(x,y_0,\ldots,y_{t-1})$ for the post and tokens already generated. An LLM's log probability of a summary is a sum of token log probabilities, so:
 
 $$
 \log\frac{\pi_\phi^{\mathrm{RL}}(y\mid x)}{\pi^{\mathrm{SFT}}(y\mid x)}
-=\sum_{t=1}^{T}\left[
-\log\pi_\phi^{\mathrm{RL}}(y_t\mid x,y_{<t})
--\log\pi^{\mathrm{SFT}}(y_t\mid x,y_{<t})
+=\sum_{t=0}^{T-1}\left[
+\log\pi_\phi^{\mathrm{RL}}(y_t\mid h_t)
+-\log\pi^{\mathrm{SFT}}(y_t\mid h_t)
 \right].
 $$
 
@@ -77,11 +77,11 @@ $$
 \delta_t &= r_t+\gamma V_{t+1}-V_t,\\
 A_t &= \delta_t+\gamma\lambda A_{t+1},\\
 V_T &= A_T=0,\\
-\text{critic target at }t &= V_t+A_t.
+\widehat G_t^{\lambda} &= V_t+A_t.
 \end{aligned}
 $$
 
-The final reward can therefore influence earlier tokens. The critic is trained toward these targets with a value loss, roughly $\bigl(V_t-\operatorname{stopgrad}(V_t+A_t)\bigr)^2$. Because GAE uses intermediate value predictions, a target need not equal the raw Monte Carlo remaining return exactly.
+The final reward can therefore influence earlier tokens. Here $V_t$ and $A_t$ are calculated from the collected rollout and held fixed while PPO updates the models. The critic's new prediction $V_{\psi}(h_t)$ is trained toward the fixed target $\widehat G_t^{\lambda}$, for example with $\bigl(V_{\psi}(h_t)-\widehat G_t^{\lambda}\bigr)^2$. Because GAE uses intermediate value predictions, this target need not equal the raw Monte Carlo remaining return exactly.
 
 ## Where the advantage goes
 
@@ -89,15 +89,15 @@ PPO uses an advantage $A_t$ **at each generated token**, although the reward mod
 
 $$
 \rho_t(\phi)
-=\frac{\pi_\phi(y_t\mid x,y_{<t})}
-{\pi_{\mathrm{old}}(y_t\mid x,y_{<t})},
+=\frac{\pi_\phi(y_t\mid h_t)}
+{\pi_{\mathrm{old}}(y_t\mid h_t)},
 $$
 
 $$
 \mathcal{L}^{\mathrm{policy}}_t
 =-\min\!\left(
 \rho_t A_t,\;
-\operatorname{clip}(\rho_t,1-\epsilon,1+\epsilon)A_t
+\mathrm{clip}(\rho_t,1-\epsilon,1+\epsilon)A_t
 \right).
 $$
 
