@@ -12,7 +12,7 @@ class RewardModel(nn.Module):
         self.base_model = AutoModel.from_pretrained(model_name)
         self.base_model.requires_grad_(False)
 
-        hidden_size = self.base_model.config.hidden_size
+        hidden_size = self.base_model.config.text_config.hidden_size
         self.reward_head = nn.Linear(hidden_size, 1, bias=False)
 
     def forward(self, input_ids, attention_mask):
