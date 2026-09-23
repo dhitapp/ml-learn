@@ -1,0 +1,1 @@
+from src.modules.reward.base import RewardModel

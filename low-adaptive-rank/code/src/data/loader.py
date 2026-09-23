@@ -63,7 +63,6 @@ class TextDataset(Dataset):
                 history.append({"role": role, "content": content})
         return history
 
-    
 
     def load(self):
         self.data = {}
