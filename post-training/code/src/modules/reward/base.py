@@ -41,6 +41,9 @@ class RewardModel(nn.Module):
             batch_positions,
             final_positions,
         ]
+        final_hidden = final_hidden.to(
+            dtype=self.reward_head.weight.dtype
+        )
 
         rewards = self.reward_head(final_hidden)
         return rewards.squeeze(-1)
